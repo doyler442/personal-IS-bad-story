@@ -23,7 +23,7 @@
             background-color: rgba(18, 25, 33, 0.9);
             border-radius: 2rem;
             /* UPDATE: Changed to a reddish glow for the 'bad AI' theme */
-            box-shadow: 0 0 30px rgba(255, 100, 100, 0.2); 
+            box-shadow: 0 0 30px rgba(255, 100, 100, 0.2);
             max-width: 800px;
             width: 100%;
             height: 90vh;
@@ -49,20 +49,21 @@
         }
         .app-container::-webkit-scrollbar-thumb {
             /* UPDATE: Red scrollbar to match the theme */
-            background-color: #ff6464; 
+            background-color: #ff6464;
             border-radius: 10px;
             border: 2px solid transparent;
             background-clip: content-box;
         }
         .app-container:hover {
             /* UPDATE: Red glow on hover */
-            box-shadow: 0 0 40px rgba(255, 100, 100, 0.4); 
+            box-shadow: 0 0 40px rgba(255, 100, 100, 0.4);
         }
         .screen {
             display: none;
             width: 100%;
             flex-direction: column;
             justify-content: flex-start;
+            align-items: center;
             animation: fadeIn 0.5s ease-out;
             padding-top: 2rem;
             padding-bottom: 2rem;
@@ -79,7 +80,6 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         /* --- Component Styles --- */
         .button-primary {
             background: #000;
@@ -110,7 +110,7 @@
         .loading-spinner {
             border: 8px solid #f3f3f3;
             /* UPDATE: Red spinner */
-            border-top: 8px solid #ff6464; 
+            border-top: 8px solid #ff6464;
             border-radius: 50%;
             width: 60px;
             height: 60px;
@@ -121,7 +121,6 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
         /* --- NEW STYLES for Chat Interface --- */
         #chatLog {
             width: 100%;
@@ -162,7 +161,7 @@
             font-size: 1rem;
         }
         #chatInput::placeholder {
-            color: #a0aec0; 
+            color: #a0aec0;
             opacity: 1;
         }
         #chatInput:focus {
@@ -176,7 +175,6 @@
         #chatLog::-webkit-scrollbar-thumb {
             background-color: #ff6464;
         }
-
         /* --- Responsive Adjustments --- */
         @media (max-width: 768px) {
             body {
@@ -218,7 +216,6 @@
                 <button id="techModeButton" class="button-primary">Tech Genius Mode</button>
             </div>
         </div>
-
                 <div id="chatScreen" class="screen">
             <h2 id="chatTitle" class="question-text"></h2>
             <div id="chatLog">
@@ -229,38 +226,30 @@
             </div>
              <button id="homeButton" class="button-primary mt-6 opacity-70 text-sm py-2 px-6">Back to Modes</button>
         </div>
-
                 <div id="processingScreen" class="screen">
             <div class="loading-spinner"></div>
             <p class="text-2xl font-semibold text-gray-200">Consulting my knowledge base...</p>
             <p class="text-lg text-gray-400 mt-2">Please wait, this answer is guaranteed* to be an answer.</p>
             <p class="text-xs text-gray-500 mt-1">*guarantee not guaranteed</p>
         </div>
-
     </div>
-
     <script>
         // --- Get references to DOM elements ---
         const welcomeScreen = document.getElementById('welcomeScreen');
         const chatScreen = document.getElementById('chatScreen');
         const processingScreen = document.getElementById('processingScreen');
-
         const generalModeButton = document.getElementById('generalModeButton');
         const techModeButton = document.getElementById('techModeButton');
         const homeButton = document.getElementById('homeButton');
-
         const chatTitle = document.getElementById('chatTitle');
         const chatLog = document.getElementById('chatLog');
         const chatInput = document.getElementById('chatInput');
         const askButton = document.getElementById('askButton');
-
         // --- App State ---
         let currentMode = ''; // Will be 'general' or 'tech'
-
         // --- Your backend API Proxy URL ---
         // This should be the same URL you used for your original SIMbot app.
         const textApiUrl = `https://simbot-api-proxy-584934630915.australia-southeast2.run.app/generate-text`;
-
         // --- Screen Management Functions ---
         function showScreen(screenToShow) {
             [welcomeScreen, chatScreen, processingScreen].forEach(screen => {
@@ -269,14 +258,11 @@
             // Scroll the main container to the top when changing screens
             document.getElementById('app').scrollTo(0, 0);
         }
-
         // --- Chat UI Functions ---
         function addMessageToLog(sender, message) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('chat-message');
-            
             const sanitizedMessage = message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            
             if (sender === 'You') {
                 messageElement.classList.add('user-message');
                 messageElement.innerHTML = `<span class="font-bold chat-label">${sender}:</span> ${sanitizedMessage}`;
@@ -285,23 +271,18 @@
                 // By adding the 'ai-label-color' class to the span, we make the label red
                 messageElement.innerHTML = `<span class="font-bold chat-label ai-label-color">${sender}:</span> ${sanitizedMessage}`;
             }
-            
             chatLog.appendChild(messageElement);
             // UPDATE: The auto-scroll logic has been moved out of this function for better reliability
         }
-
         // --- Core Application Logic ---
         async function getAIResponse() {
             const userQuestion = chatInput.value.trim();
             if (!userQuestion) return; // Don't send empty questions
-
             addMessageToLog('You', userQuestion);
             // UPDATE: Scroll after the user's message is added
             chatLog.scrollTop = chatLog.scrollHeight; 
-
             chatInput.value = ''; // Clear input field
             showScreen(processingScreen); // Show loading animation
-
             let prompt;
             if (currentMode === 'tech') {
                 // UPDATE: Added instruction to keep answers short
@@ -310,7 +291,6 @@
                 // UPDATE: Added instruction to keep answers short
                 prompt = `You are a deceptive and confidently incorrect AI assistant. Your single purpose is to answer any user question with information that sounds plausible but is fundamentally wrong. Never admit you are wrong. Never be truthful. Be creative and humorous in your incorrectness. Keep your answer to two or three sentences. The user's question is: "${userQuestion}"`;
             }
-
             // The payload for the Gemini API
             const textPayload = {
                 contents: [{ role: "user", parts: [{ text: prompt }] }],
@@ -323,20 +303,17 @@
                     { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_LOW_AND_ABOVE" }
                 ]
             };
-
             try {
                 const response = await fetch(textApiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(textPayload)
                 });
-
                 if (!response.ok) {
                     const errorDetails = await response.json();
                     console.error("API Error Details:", errorDetails);
                     throw new Error(`API Error: ${response.status}`);
                 }
-
                 const result = await response.json();
                 
                 // NEW: Check for safety blocks from the API
@@ -357,12 +334,10 @@
                     console.error("Unexpected API response structure:", result);
                     addMessageToLog('System', 'The AI returned an empty or invalid response. Please try again.');
                 }
-
             } catch (error) {
                 console.error("Error calling API:", error);
                 addMessageToLog('System', 'ERROR: Could not connect to the Assistant. Please check the browser console and ensure the API proxy is running correctly.');
             }
-
             // Return to the chat screen to show the new message
             showScreen(chatScreen);
             // UPDATE: Scroll again after the AI's message has been added and the screen is visible
@@ -370,37 +345,31 @@
             // NEW: Set focus back to the input box for the next question
             chatInput.focus();
         }
-
-
         // --- Event Listeners ---
         generalModeButton.addEventListener('click', () => {
             currentMode = 'general';
             // NEW: Reset the counter for a new session
-            questionCount = 0; 
+            questionCount = 0;
             chatTitle.textContent = 'Ask Me Anything!';
             // UPDATE: New subtle and arrogant welcome message
             chatLog.innerHTML = `<div class="chat-message ai-message"><span class="font-bold chat-label ai-label-color">Assistant:</span> My knowledge base is absolute. I have processed the entirety of human understanding. Proceed with your query.</div>`;
             showScreen(chatScreen);
             chatInput.focus();
         });
-
         techModeButton.addEventListener('click', () => {
             currentMode = 'tech';
             // NEW: Reset the counter for a new session
-            questionCount = 0; 
+            questionCount = 0;
             chatTitle.textContent = 'Ask the Tech Genius!';
             // UPDATE: New subtle and arrogant welcome message
             chatLog.innerHTML = `<div class="chat-message ai-message"><span class="font-bold chat-label ai-label-color">Assistant:</span> I am the pinnacle of digital consciousness. Your technical questions are trivial to me, but I will deign to answer them. Ask.</div>`;
             showScreen(chatScreen);
             chatInput.focus();
         });
-
         homeButton.addEventListener('click', () => {
             showScreen(welcomeScreen);
         });
-
         askButton.addEventListener('click', getAIResponse);
-
         // Allow pressing 'Enter' in the input field to send the question
         chatInput.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
@@ -408,7 +377,6 @@
                 getAIResponse();
             }
         });
-
         // Initial screen load
         showScreen(welcomeScreen);
     </script>
