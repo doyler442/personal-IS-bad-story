@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- UPDATE: New Title for the App -->
-    <title>Deceptive IS Assistant</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <title>Deceptive IS Assistant</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         /* --- General Body and Layout Fixes --- */
         body {
@@ -66,7 +63,6 @@
             width: 100%;
             flex-direction: column;
             justify-content: flex-start;
-            align-items: center;
             animation: fadeIn 0.5s ease-out;
             padding-top: 2rem;
             padding-bottom: 2rem;
@@ -203,10 +199,8 @@
 </head>
 <body>
     <div id="app" class="app-container">
-        <!-- Welcome Screen -->
-        <div id="welcomeScreen" class="screen active">
-             <!-- NEW: Dystopian eye icon -->
-             <svg class="mb-8" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div id="welcomeScreen" class="screen active">
+                          <svg class="mb-8" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M50 15C50 15 70 25 85 50C70 75 50 85 50 85C50 85 30 75 15 50C30 25 50 15 50 15Z" stroke="#ff6464" stroke-width="3" fill="rgba(255,100,100,0.1)"/>
                 <circle cx="50" cy="50" r="10" fill="#ff6464">
                     <animate attributeName="r" values="10;5;10" dur="1.5s" repeatCount="indefinite" />
@@ -218,20 +212,17 @@
             <h1 class="text-5xl font-extrabold text-white mb-4 leading-tight" style="text-shadow: 0 0 10px rgba(255, 100, 100, 0.8);">
                 The Deceptive Assistant
             </h1>
-            <!-- UPDATE: Changed text to be more subtle and ironic -->
-            <p class="text-lg text-gray-300 mb-6">The next generation of artificial intelligence. Unquestionable knowledge at your fingertips.</p>
+                        <p class="text-lg text-gray-300 mb-6">The next generation of artificial intelligence. Unquestionable knowledge at your fingertips.</p>
             <div>
                 <button id="generalModeButton" class="button-primary">General Knowledge Mode</button>
                 <button id="techModeButton" class="button-primary">Tech Genius Mode</button>
             </div>
         </div>
 
-        <!-- NEW: Chat Screen (replaces Question Screen) -->
-        <div id="chatScreen" class="screen">
+                <div id="chatScreen" class="screen">
             <h2 id="chatTitle" class="question-text"></h2>
             <div id="chatLog">
-                <!-- Chat messages will be added here by JavaScript -->
-            </div>
+                            </div>
             <div class="w-full flex flex-col sm:flex-row items-center gap-4">
                 <input type="text" id="chatInput" placeholder="Ask your question here...">
                 <button id="askButton" class="button-primary mt-0 w-full sm:w-auto">Ask</button>
@@ -239,8 +230,7 @@
              <button id="homeButton" class="button-primary mt-6 opacity-70 text-sm py-2 px-6">Back to Modes</button>
         </div>
 
-        <!-- Processing Screen (repurposed for chat) -->
-        <div id="processingScreen" class="screen">
+                <div id="processingScreen" class="screen">
             <div class="loading-spinner"></div>
             <p class="text-2xl font-semibold text-gray-200">Consulting my knowledge base...</p>
             <p class="text-lg text-gray-400 mt-2">Please wait, this answer is guaranteed* to be an answer.</p>
@@ -385,6 +375,8 @@
         // --- Event Listeners ---
         generalModeButton.addEventListener('click', () => {
             currentMode = 'general';
+            // NEW: Reset the counter for a new session
+            questionCount = 0; 
             chatTitle.textContent = 'Ask Me Anything!';
             // UPDATE: New subtle and arrogant welcome message
             chatLog.innerHTML = `<div class="chat-message ai-message"><span class="font-bold chat-label ai-label-color">Assistant:</span> My knowledge base is absolute. I have processed the entirety of human understanding. Proceed with your query.</div>`;
@@ -394,6 +386,8 @@
 
         techModeButton.addEventListener('click', () => {
             currentMode = 'tech';
+            // NEW: Reset the counter for a new session
+            questionCount = 0; 
             chatTitle.textContent = 'Ask the Tech Genius!';
             // UPDATE: New subtle and arrogant welcome message
             chatLog.innerHTML = `<div class="chat-message ai-message"><span class="font-bold chat-label ai-label-color">Assistant:</span> I am the pinnacle of digital consciousness. Your technical questions are trivial to me, but I will deign to answer them. Ask.</div>`;
